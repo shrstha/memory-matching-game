@@ -187,6 +187,10 @@ h1 {
 #starRating li {
 	display: inline-block;
 }
+.clock {
+	display: inline-block;
+	margin: 0 1rem;
+}
 
 #play-again {
 	background-color: #02b3e4;

@@ -25,7 +25,9 @@
                 <li class="card" type="2">2</li>
                 <li class="card" type="5">5</li>
             </ul>
-            <section class="score-panel">    
+            <section class="score-panel">  
+                <div class="clock">
+                </div>  
                 <span class="moves">0</span> Move(s)
     
                 <div class="restart" onclick=startGame()>
@@ -36,6 +38,7 @@
                 <div class="popup">
                     <h3>Congratulations!!!</h3>
                     <p>You won the game with <span id=finalMove> </span> moves </p>
+                    <p>Time: <span id=finalTime></span></p>
                     <button id="play-again" onclick="startGame()">
                         Play again
                     </button>

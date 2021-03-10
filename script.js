@@ -11,6 +11,7 @@ let counter = document.querySelector(".moves");
 
 let matchedCard = document.getElementsByClassName("match");
 let modal = document.getElementById("all-matched")
+let clock = document.querySelector(".clock");
 
 // array for opened cards
 let openedCards = [];
@@ -57,12 +58,42 @@ function startGame() {
     // reset moves
     moves = 0;
     counter.innerHTML = moves;
+
+    // reset timer
+    second = 0; minute = 0; hour = 0;
+    clock.innerHTML = "00:00:00";
+    clearInterval(interval);
+}
+
+// @description game timer
+var second = 0, minute = 0; hour = 0;
+var interval;
+function startTimer(){
+    interval = setInterval(function() {
+        hours = hour < 10 ? "0" + hour : hour
+        minutes = minute < 10 ? "0" + minute : minute
+        seconds = second < 10 ? "0" + second : second
+        clock.innerHTML = hours + ":" + minutes+ ":" + seconds;
+        second++;
+        if(second == 60){
+            minute++;
+            second=0;
+        }
+        if(minute == 60){
+            hour++;
+            minute = 0;
+        }
+    },1000);
 }
 
 // toggles open and show class to display cards
 function openCard() {
     moves++;
     counter.innerHTML = moves;
+    if(moves == 1){
+        second = 0; minute = 0; hour = 0;
+        startTimer();
+    }
     this.classList.add("open", "show", "disabled");
     openedCards.push(this);
 
@@ -74,19 +105,22 @@ function openCard() {
         // empty it once match class appended
         openedCards = [];
         if (matchedCard.length == 16) {
+            clearInterval(interval);
+
             modal.classList.add("show");
             document.getElementById("finalMove").innerHTML = moves;
+            document.getElementById("finalTime").innerHTML = clock.innerHTML;
         }
     } else {
         openedCards[0].classList.add("unmatched");
         openedCards[1].classList.add("unmatched");
-        Array.prototype.filter.call(cards, function(card){
+        Array.prototype.filter.call(cards, function(card) {
             card.classList.add('disabled');
         });
         setTimeout(function(){
             openedCards[0].classList.remove("show", "open", "no-event", "unmatched");
             openedCards[1].classList.remove("show", "open", "no-event", "unmatched");
-            Array.prototype.filter.call(cards, function(card){
+            Array.prototype.filter.call(cards, function(card) {
                 card.classList.remove('disabled');
             });
             openedCards = [];
